@@ -1,0 +1,21 @@
+---
+- name: assignment
+  gather_facts: true
+  hosts: all
+
+
+  tasks:
+    - name: memory usage
+      debug:
+        msg: "{{ ansible_memory_mb }}"
+
+    - name: CPU usage 
+      shell: "top -b -n 1 -o %CPU | head -n 10" 
+      register: top 
+ 
+    - name: 'running df -h '
+      shell: df -h
+      register: disk_size
+
+    - debug:
+        msg: "{{ disk_size.stdout.split('\n') }}"
